@@ -1,8 +1,10 @@
 **/.vscode
 
 .idea*
+.venv*
+
 # GAP8 build files
+denise/BUILD*
 examples/**/BUILD*
 examples/**/lib*
-BUILD
 __pycache__

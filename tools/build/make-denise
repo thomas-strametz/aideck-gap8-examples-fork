@@ -1,0 +1,6 @@
+#!/usr/bin/env bash
+set -e
+cd denise
+export GAPY_OPENOCD_CABLE=interface/ftdi/olimex-arm-usb-tiny-h.cfg
+source /gap_sdk/configs/ai_deck.sh
+make image
