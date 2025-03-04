@@ -1,0 +1,1 @@
+docker run --rm -v ${PWD}:/module aideck-with-autotiler tools/build/make-denise
