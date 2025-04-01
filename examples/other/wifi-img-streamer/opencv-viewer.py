@@ -41,6 +41,7 @@ import argparse
 import time
 import socket,os,struct, time
 import numpy as np
+from pathlib import Path
 
 # Args for setting IP/port of AI-deck. Default settings are for when
 # AI-deck is in AP mode.
@@ -71,6 +72,7 @@ import cv2
 
 start = time.time()
 count = 0
+Path('stream_out').mkdir(exist_ok=True)
 
 while(1):
     # First get the info
@@ -110,12 +112,13 @@ while(1):
       if format == 0:
           bayer_img = np.frombuffer(imgStream, dtype=np.uint8)   
           bayer_img.shape = (244, 324)
-          color_img = cv2.cvtColor(bayer_img, cv2.COLOR_BayerBG2BGRA)
-          cv2.imshow('Raw', bayer_img)
-          cv2.imshow('Color', color_img)
-          if args.save:
-              cv2.imwrite(f"stream_out/raw/img_{count:06d}.png", bayer_img)
-              cv2.imwrite(f"stream_out/debayer/img_{count:06d}.png", color_img)
+          # color_img = cv2.cvtColor(bayer_img, cv2.COLOR_BayerBG2BGRA)
+          # cv2.imshow('Raw', bayer_img)
+          # cv2.imshow('Color', color_img)
+          # if args.save:
+          #     cv2.imwrite(f"stream_out/raw/img_{count:06d}.png", bayer_img)
+          #     cv2.imwrite(f"stream_out/debayer/img_{count:06d}.png", color_img)
+          cv2.imwrite(f"stream_out/img_{count:06d}.png", bayer_img)
           cv2.waitKey(1)
       else:
           with open("img.jpeg", "wb") as f:
