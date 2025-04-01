@@ -38,9 +38,9 @@
 #  and the end-of-frame (0xFF 0xD9).
 
 import argparse
-import time
-import socket,os,struct, time
+import socket,struct, time
 import numpy as np
+import cv2
 from pathlib import Path
 
 # Args for setting IP/port of AI-deck. Default settings are for when
@@ -68,11 +68,15 @@ def rx_bytes(size):
     data.extend(client_socket.recv(size-len(data)))
   return data
 
-import cv2
-
 start = time.time()
-count = 0
-Path('stream_out').mkdir(exist_ok=True)
+out_path = Path('stream_out')
+out_path.mkdir(exist_ok=True)
+counts = [int(p.name[4:-4]) if len(p.name) == 14 else 0 for p in out_path.iterdir()]
+if len(counts) == 0:
+    count = 0
+else:
+    count = max(counts)
+
 
 while(1):
     # First get the info
