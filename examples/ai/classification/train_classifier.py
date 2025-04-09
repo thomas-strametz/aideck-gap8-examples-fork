@@ -158,35 +158,35 @@ if __name__ == "__main__":
         callbacks=[tensorboard_callback],
     )
 
-    # Fine-tune the model
-    print("Number of layers in the base model: ", len(base_model.layers))
-
-    base_model.trainable = True
-    fine_tune_at = 100
-
-    # Freeze all the layers before the `fine_tune_at` layer
-    for layer in base_model.layers[:fine_tune_at]:
-        layer.trainable = False
-
-    model.compile(
-        optimizer=tf.keras.optimizers.Adam(5e-5),
-        loss="categorical_crossentropy",
-        metrics=["accuracy"],
-    )
-
-    model.summary()
-
-    print(
-        "Number of trainable weights = {}".format(len(model.trainable_weights))
-    )
-
-    history_fine = model.fit(
-        train_generator,
-        initial_epoch=args.epochs,
-        epochs=args.finetune_epochs + args.epochs,
-        validation_data=val_generator,
-        callbacks=[tensorboard_callback],
-    )
+    # # Fine-tune the model
+    # print("Number of layers in the base model: ", len(base_model.layers))
+    #
+    # base_model.trainable = True
+    # fine_tune_at = 100
+    #
+    # # Freeze all the layers before the `fine_tune_at` layer
+    # for layer in base_model.layers[:fine_tune_at]:
+    #     layer.trainable = False
+    #
+    # model.compile(
+    #     optimizer=tf.keras.optimizers.Adam(5e-5),
+    #     loss="categorical_crossentropy",
+    #     metrics=["accuracy"],
+    # )
+    #
+    # model.summary()
+    #
+    # print(
+    #     "Number of trainable weights = {}".format(len(model.trainable_weights))
+    # )
+    #
+    # history_fine = model.fit(
+    #     train_generator,
+    #     initial_epoch=args.epochs,
+    #     epochs=args.finetune_epochs + args.epochs,
+    #     validation_data=val_generator,
+    #     callbacks=[tensorboard_callback],
+    # )
 
     # Convert to TensorFlow lite
     converter = tf.lite.TFLiteConverter.from_keras_model(model)
