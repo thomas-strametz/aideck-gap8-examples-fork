@@ -7,6 +7,7 @@ def get_options():
     arg_parser = argparse.ArgumentParser()
     arg_parser.add_argument('--src-ds', type=str, nargs='+', default=[''])
     arg_parser.add_argument('--dst-ds', type=str, default='dst_dataset')
+    arg_parser.add_argument('--train-split', type=float, default=0.9)
     arg_parser.add_argument('--training-structure', action='store_true', default=False)
     return arg_parser.parse_args()
 
@@ -45,7 +46,7 @@ def main():
     if opt.training_structure:
         patch_images = list(src_img_gen(opt.src_ds, 'patch'))
         random.shuffle(patch_images)
-        patch_train_size = int(len(patch_images) * 0.8)
+        patch_train_size = int(len(patch_images) * opt.train_split)
         train_patch_images = patch_images[:patch_train_size]
         val_patch_images = patch_images[patch_train_size:]
 
@@ -54,7 +55,7 @@ def main():
 
         no_patch_images = list(src_img_gen(opt.src_ds, 'no_patch'))
         random.shuffle(no_patch_images)
-        no_patch_train_size = int(len(no_patch_images) * 0.8)
+        no_patch_train_size = int(len(no_patch_images) * opt.train_split)
         train_no_patch_images = no_patch_images[:no_patch_train_size]
         val_no_patch_images = no_patch_images[no_patch_train_size:]
 
